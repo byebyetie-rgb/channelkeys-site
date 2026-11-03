@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support · Channel Keys</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div class="wrap"><nav>
+  <a class="brand" href="/">Channel Keys <span>· pharma reference data</span></a>
+  <a href="/support.html">Support</a>
+  <a href="/privacy.html">Privacy</a>
+</nav></div></header>
+<main class="wrap">
+  <h1>Support</h1>
+  <p class="lead">Email <a href="mailto:support@channelkeys.net">support@channelkeys.net</a>. We answer within one business day; data-quality reports usually within hours.</p>
+
+  <h2>Refresh schedule</h2>
+  <p>Listings refresh weekly, early Sunday morning US Eastern time. The <code>meta_source_run</code> table in every listing shows the source file, size, checksum and agency timestamp behind the current refresh, and <code>META_REFRESH</code> shows when it was loaded.</p>
+
+  <h2>Source cadence</h2>
+  <ul>
+    <li>FDA NDC Directory: updated daily by FDA; we pick up the latest file each week.</li>
+    <li>FDA Orange Book data files: updated monthly by FDA.</li>
+    <li>Medicaid State Drug Utilization Data: updated quarterly by CMS, with restatements.</li>
+    <li>340B OPAIS: HRSA publishes a daily export; we snapshot it weekly and log changes.</li>
+    <li>CMS Open Payments: republished in June and January each year.</li>
+  </ul>
+
+  <h2>Reporting a data issue</h2>
+  <p>Send the table name, the key (for example an NDC-11 or 340B ID), what you expected and what you saw. If the source agency's file is wrong we will say so and point to it; if our transformation is wrong we fix it in the next refresh and note it in the listing's release notes.</p>
+
+  <h2>Requests</h2>
+  <p>Need another public source joined in, a different grain, or a private listing with custom tables? Write to <a href="mailto:hello@channelkeys.net">hello@channelkeys.net</a>.</p>
+</main>
+<footer><div class="wrap">© 2026 Channel Keys · <a href="/privacy.html">Privacy</a> · <a href="/support.html">Support</a></div></footer>
+</body>
+</html>

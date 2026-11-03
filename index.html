@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Channel Keys</title>
+<meta name="description" content="Pharma-keyed public reference data: FDA NDC, Orange Book, Medicaid SDUD, 340B OPAIS and CMS Open Payments, joined and refreshed weekly on Snowflake Marketplace.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div class="wrap"><nav>
+  <a class="brand" href="/">Channel Keys <span>· pharma reference data</span></a>
+  <a href="/support.html">Support</a>
+  <a href="/privacy.html">Privacy</a>
+</nav></div></header>
+<main class="wrap">
+  <h1>The public pharma reference tables, already joined.</h1>
+  <p class="lead">Channel Keys packages five U.S. federal datasets on one set of keys (NDC-11, application number, labeler, NPI) and refreshes them weekly with a row-level change log. Delivered natively on Snowflake Marketplace, no files to download.</p>
+  <p><a class="btn" href="https://app.snowflake.com/marketplace">Find us on Snowflake Marketplace</a></p>
+  <div class="grid">
+    <div class="card"><h3>FDA NDC Directory</h3><p>One row per 11-digit NDC with a crosswalk for every 10-digit format, marketing dates and discontinuation flags.</p></div>
+    <div class="card"><h3>FDA Orange Book</h3><p>Products, patents and exclusivity rolled up to one row per NDA/ANDA with an estimated loss-of-exclusivity date.</p></div>
+    <div class="card"><h3>Medicaid SDUD</h3><p>State drug utilization by NDC, state, year and quarter, typed and keyed to the same NDC-11.</p></div>
+    <div class="card"><h3>340B OPAIS</h3><p>Covered entities, contract pharmacies, ship-to sites, NPIs and Medicaid numbers, with active flags and change history.</p></div>
+    <div class="card"><h3>CMS Open Payments</h3><p>General payments summarized by manufacturer, by product with the NDC resolved, and by recipient.</p></div>
+    <div class="card"><h3>Change log</h3><p>Every refresh records adds, removals and field changes, so "what changed since last week" is one query.</p></div>
+  </div>
+  <h2>Provenance</h2>
+  <p>All source data is published by U.S. government agencies (FDA, CMS, HRSA). Each refresh ships a <code>meta_source_run</code> table with the URL, size, SHA-256 and server timestamp of every file used. Derived fields (normalizations, joins, estimated LOE dates, manufacturer matches) are ours and should be validated before regulatory or contractual use. Channel Keys is not affiliated with or endorsed by FDA, CMS or HRSA.</p>
+  <h2>Contact</h2>
+  <p>Questions and data requests: <a href="mailto:hello@channelkeys.net">hello@channelkeys.net</a>. Support for Marketplace consumers: <a href="/support.html">support page</a>.</p>
+</main>
+<footer><div class="wrap">© 2026 Channel Keys · Milford, Massachusetts · <a href="/privacy.html">Privacy</a> · <a href="/support.html">Support</a></div></footer>
+</body>
+</html>
