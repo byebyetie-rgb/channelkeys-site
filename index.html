@@ -4,34 +4,199 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Channel Keys</title>
-<meta name="description" content="Pharma-keyed public reference data: FDA NDC, Orange Book, Medicaid SDUD, 340B OPAIS and CMS Open Payments, joined and refreshed weekly on Snowflake Marketplace.">
+<meta name="description" content="Pharma reference data, already joined: FDA NDC, Orange Book, Medicaid utilization, 340B OPAIS and Open Payments on one set of keys, refreshed weekly inside Snowflake.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="style.css">
+<meta property="og:title" content="Channel Keys: pharma reference data, already joined">
+<meta property="og:description" content="Five federal datasets on one set of keys, refreshed every week with a change log. Delivered on Snowflake Marketplace.">
+<meta property="og:image" content="https://channelkeys.net/assets/icon.png">
 </head>
-<body>
-<header><div class="wrap"><nav>
-  <a class="brand" href="/">Channel Keys <span>· pharma reference data</span></a>
-  <a href="/docs.html">Docs</a>
-  <a href="/support.html">Support</a>
-  <a href="/privacy.html">Privacy</a>
+<body data-root="">
+<header class="site-header"><div class="wrap"><nav class="nav" aria-label="Main">
+  <a class="brand" href="/" aria-label="Channel Keys home">
+    <svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="6" class="mark"/><rect x="5" y="7" width="10" height="3.2" rx="1.6" fill="#4A5B73"/><rect x="5" y="12.4" width="16" height="3.2" rx="1.6" fill="#5EC2FF"/><rect x="5" y="17.8" width="13" height="3.2" rx="1.6" fill="#4A5B73"/></svg>
+    Channel Keys
+  </a>
+  <a class="link" href="#inside">What's inside</a>
+  <a class="link" href="#changes">This week</a>
+  <a class="link" href="#pricing">Pricing</a>
+  <a class="link keep" href="/docs.html">Docs</a>
+  <a class="btn btn-primary cta" href="https://app.snowflake.com/marketplace/listings?search=Channel%20Keys" rel="noopener">Get it<span class="long"> on Snowflake</span></a>
 </nav></div></header>
-<main class="wrap">
-  <h1>The public pharma reference tables, already joined.</h1>
-  <p class="lead">Channel Keys packages five U.S. federal datasets on one set of keys (NDC-11, application number, labeler, NPI) and refreshes them weekly with a row-level change log. Delivered natively on Snowflake Marketplace, no files to download.</p>
-  <p><a class="btn" href="https://app.snowflake.com/marketplace">Find us on Snowflake Marketplace</a></p>
-  <div class="grid">
-    <div class="card"><h3>FDA NDC Directory</h3><p>One row per 11-digit NDC with a crosswalk for every 10-digit format, marketing dates and discontinuation flags.</p></div>
-    <div class="card"><h3>FDA Orange Book</h3><p>Products, patents and exclusivity rolled up to one row per NDA/ANDA with an estimated loss-of-exclusivity date.</p></div>
-    <div class="card"><h3>Medicaid SDUD</h3><p>State drug utilization by NDC, state, year and quarter, typed and keyed to the same NDC-11.</p></div>
-    <div class="card"><h3>340B OPAIS</h3><p>Covered entities, contract pharmacies, ship-to sites, NPIs and Medicaid numbers, with active flags and change history.</p></div>
-    <div class="card"><h3>CMS Open Payments</h3><p>General payments summarized by manufacturer, by product with the NDC resolved, and by recipient.</p></div>
-    <div class="card"><h3>Change log</h3><p>Every refresh records adds, removals and field changes, so "what changed since last week" is one query.</p></div>
+
+<main>
+<div class="wrap">
+  <section class="hero" aria-labelledby="hero-title">
+    <div>
+      <p class="kicker">On Snowflake Marketplace. <b>Free during launch.</b></p>
+      <h1 id="hero-title">The pharma reference tables your team keeps rebuilding, already joined.</h1>
+      <p class="lead">FDA NDC, Orange Book, Medicaid utilization, 340B OPAIS and Open Payments on one set of keys, delivered inside your Snowflake account and refreshed every Sunday with a row-level change log.</p>
+      <div class="actions">
+        <a class="btn btn-primary btn-lg" href="https://app.snowflake.com/marketplace/listings?search=Channel%20Keys" rel="noopener">Get it on Snowflake Marketplace</a>
+        <a class="btn btn-secondary btn-lg" href="/docs.html">Read the data dictionary</a>
+      </div>
+      <p class="fine">No files, no FTP, no parsing. The tables appear in your account and stay current.</p>
+    </div>
+
+    <aside class="ledger" aria-labelledby="ledger-title">
+      <div class="ledger-head">
+        <h3 id="ledger-title">Refresh ledger</h3>
+        <span class="stamp"><i aria-hidden="true"></i><span data-stat="refreshed_on">Sunday, November 2, 2026</span></span>
+      </div>
+      <table>
+        <thead><tr><th>Source</th><th>In the pack</th><th>This week</th></tr></thead>
+        <tbody>
+          <tr><td class="name">FDA NDC Directory<small data-source-date="fda_ndc">agency file Nov 2, 2026</small></td><td class="num"><b data-stat="ndc11">638,180</b><small>NDC-11s, <span data-stat="ndc11_marketed">256,429</span> marketed</small></td><td class="delta" data-delta="ndc_package">baseline</td></tr>
+          <tr><td class="name">FDA Orange Book<small data-source-date="orange_book">agency file Oct 13, 2026</small></td><td class="num"><b data-stat="applications">27,428</b><small>applications, <span data-stat="patents">22,438</span> patents</small></td><td class="delta" data-delta="ob_patent">baseline</td></tr>
+          <tr><td class="name">Medicaid utilization<small>through <span data-stat="sdud_latest_quarter">Q1 2026</span></small></td><td class="num"><b data-stat="sdud_rows">17,221,265</b><small>rows, <span data-stat="sdud_states">53</span> states and territories</small></td><td class="delta">quarterly</td></tr>
+          <tr><td class="name">HRSA 340B OPAIS<small>daily export, weekly snapshot</small></td><td class="num"><b data-stat="covered_entities">94,951</b><small>covered entities, <span data-stat="contract_pharmacies_active">244,803</span> active contract pharmacies</small></td><td class="delta" data-delta="opais_contract_pharmacy">baseline</td></tr>
+          <tr><td class="name">CMS Open Payments<small><span data-stat="op_years">2024 and 2025</span> program years</small></td><td class="num"><b data-stat="op_total_usd">$7.35B</b><small>general payments summarized</small></td><td class="delta">semiannual</td></tr>
+        </tbody>
+      </table>
+      <div class="ledger-foot"><span><span data-stat="tables">21</span> tables, <span data-stat="rows_total">30,884,576</span> rows</span><span>next refresh Sunday 03:40 ET</span></div>
+    </aside>
+  </section>
+</div>
+
+<div class="keystrip" aria-hidden="true">
+  <span><b>00002143380</b> Trulicity 0.75 mg/0.5 mL</span><span><b>N202155</b> Eliquis, est. LOE 2031-08-24</span><span><b>BL030740</b> Stone Mountain Health Services</span><span><b>N021995</b> Januvia, est. LOE 2027-05-24</span><span><b>69488001061</b> Pluvicto</span><span><b>00024591401</b> Dupixent</span><span><b>00023114501</b> Botox</span><span><b>20058</b> B &amp; H Apothecary, Booneville KY</span><span><b>00003089421</b> Eliquis 5 mg</span><span><b>A209180</b> apixaban generic</span>
+</div>
+
+<div class="wrap">
+  <section class="block" id="inside" aria-labelledby="inside-title">
+    <div class="section-head">
+      <h2 id="inside-title">Five federal sources. One set of keys.</h2>
+      <p>Every table shares the same identifiers: NDC-11, application number, labeler code, NPI and 340B ID. Join across sources without a mapping project.</p>
+    </div>
+    <table class="sources">
+      <thead><tr><th>Source</th><th>What we do with it</th><th>Grain</th><th>Agency cadence</th></tr></thead>
+      <tbody>
+        <tr><td class="src">FDA NDC Directory<small>Finished, unfinished and excluded files</small></td><td class="what">One row per 11-digit NDC with product, labeler, dosage form, marketing dates and a discontinuation flag. A crosswalk maps every 10-digit format you will meet in claims, 867/852 feeds and chargebacks to the 11-digit key.</td><td class="grain">NDC-11</td><td class="cad">Daily. We pick up the latest file each week.</td></tr>
+        <tr><td class="src">FDA Orange Book<small>Products, patents, exclusivity</small></td><td class="what">Rolled up to one row per NDA or ANDA with first approval, last unexpired patent, last exclusivity and an estimated loss-of-exclusivity date, tied back to the NDCs on the market today.</td><td class="grain">Application</td><td class="cad">Monthly.</td></tr>
+        <tr><td class="src">Medicaid State Drug Utilization<small>CMS SDUD, 2023 to current quarter</small></td><td class="what">Fee-for-service and managed-care utilization by state, NDC-11, year and quarter. Measures are typed, suppressed rows are flagged, and a single quarter key makes range filters trivial.</td><td class="grain">NDC-11, state, quarter</td><td class="cad">Quarterly, with restatements.</td></tr>
+        <tr><td class="src">HRSA 340B OPAIS<small>Covered entities and contract pharmacies</small></td><td class="what">Covered entities, contract pharmacy arrangements with begin and end dates and an active flag, ship-to sites, NPIs and Medicaid billing numbers. Snapshotted weekly, so every add and termination lands in the change log.</td><td class="grain">Entity, contract</td><td class="cad">Daily export.</td></tr>
+        <tr><td class="src">CMS Open Payments<small>General payments, 2024 and 2025</small></td><td class="what">Payments summarized by manufacturer, by product with the reported NDC resolved to NDC-11, and by covered recipient. Labelers are matched to Open Payments manufacturers with the method and score exposed, so you decide the threshold.</td><td class="grain">Manufacturer, product, year</td><td class="cad">Twice a year.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="block" id="changes" aria-labelledby="changes-title">
+    <div class="section-head">
+      <h2 id="changes-title">What changed this week</h2>
+      <p>Each refresh compares every tracked table with the previous snapshot and records adds, removals and field-level edits in <code>CHANGE_LOG</code>. This feed is the same data.</p>
+    </div>
+    <div class="changes">
+      <div class="counts" id="change-counts"></div>
+      <div class="highlights" id="change-highlights"><div class="empty"><b>Loading this week's changes.</b></div></div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="how-title">
+    <div class="section-head">
+      <h2 id="how-title">How a refresh works</h2>
+      <p>Three steps, every Sunday, with the evidence stored next to the data.</p>
+    </div>
+    <ol class="steps" style="list-style:none; padding:0; margin:0">
+      <li class="step"><h3>Pull</h3><p>Every source file is downloaded from the agency, checksummed and recorded with its URL, size and server timestamp in <code>META_SOURCE_RUN</code>. Unchanged files are reused, not re-downloaded.</p><span class="when">Sundays, 03:40 ET</span></li>
+      <li class="step"><h3>Join and check</h3><p>NDCs are normalized to 11 digits, application numbers to the Orange Book key, labelers to Open Payments manufacturers. Derived fields are recomputed and the new snapshot is diffed against the last one.</p><span class="when">Keys, flags, change log</span></li>
+      <li class="step"><h3>Publish</h3><p>Tables are refreshed in place in Snowflake, so your views and grants keep working. The share is auto-fulfilled to every Snowflake region, usually within a day of first access.</p><span class="when">57 regions, in place</span></li>
+    </ol>
+  </section>
+
+  <section class="block" aria-labelledby="demo-title">
+    <div class="section-head">
+      <h2 id="demo-title">Query it like you already own it</h2>
+      <p>Plain SQL on plain tables. No API, no credits for someone else's compute. The listing ships with validated examples.</p>
+    </div>
+    <div class="demo">
+<pre class="code"><code><span class="c">-- Marketed packages for a brand, with the exclusivity picture</span>
+<span class="k">SELECT</span> ndc11, package_description, start_marketing_date,
+       last_patent_expiry, last_exclusivity_date, est_loe_date
+<span class="k">FROM</span> core.dim_ndc11
+<span class="k">WHERE</span> proprietary_name <span class="k">ILIKE</span> <span class="s">'eliquis%'</span>
+  <span class="k">AND NOT</span> is_discontinued
+<span class="k">ORDER BY</span> ndc11;
+
+<span class="c">-- 340B contract pharmacy arrangements added since last week</span>
+<span class="k">SELECT</span> entity_key, new_values:pharmacy_name::string <span class="k">AS</span> pharmacy
+<span class="k">FROM</span> core.change_log
+<span class="k">WHERE</span> table_name = <span class="s">'opais_contract_pharmacy'</span> <span class="k">AND</span> change_type = <span class="s">'added'</span>;</code></pre>
+      <div class="result">
+        <div class="cap">dim_ndc11, Eliquis, marketed packages</div>
+        <table id="demo-result">
+          <thead><tr><th>ndc11</th><th>package</th><th>marketed</th><th>est. LOE</th></tr></thead>
+          <tbody>
+            <tr><td>00003089321</td><td class="t">60 tablets in 1 bottle (0003-0893-21)</td><td>2012-12-28</td><td>2031-08-24</td></tr>
+            <tr><td>00003089331</td><td class="t">10 blister packs of 10 (0003-0893-31)</td><td>2012-12-28</td><td>2031-08-24</td></tr>
+            <tr><td>00003089421</td><td class="t">60 tablets in 1 bottle (0003-0894-21)</td><td>2012-12-28</td><td>2031-08-24</td></tr>
+            <tr><td>00003089470</td><td class="t">74 tablets in 1 bottle (0003-0894-70)</td><td>2017-06-01</td><td>2031-08-24</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="who-title">
+    <div class="section-head">
+      <h2 id="who-title">Built for the people who own the keys</h2>
+      <p>The same tables serve three teams that usually keep three copies.</p>
+    </div>
+    <dl class="audiences">
+      <div><dt>Commercial operations</dt><dd>Launch readiness and brand analytics without an NDC master project.<ul><li>Marketed NDCs per brand, with start dates and discontinuations</li><li>Loss-of-exclusivity calendar across the portfolio and competitors</li><li>Labeler roll-ups that match Open Payments manufacturers</li></ul></dd></div>
+      <div><dt>Market access and trade</dt><dd>The 340B and Medicaid picture by account and state, kept current.<ul><li>Active contract pharmacy count per covered entity</li><li>Adds and terminations every week, in one table</li><li>Medicaid utilization by state, NDC and quarter</li></ul></dd></div>
+      <div><dt>Data engineering</dt><dd>Reference data that behaves like a dependency, not a chore.<ul><li>One key set, stable table names, in-place refresh</li><li>Checksums and agency timestamps for every source file</li><li>Change log instead of full-table diffs</li></ul></dd></div>
+    </dl>
+  </section>
+
+  <section class="block" id="pricing" aria-labelledby="pricing-title">
+    <div class="section-head">
+      <h2 id="pricing-title">Pricing</h2>
+      <p>Free while the listing launches on Marketplace. Paid plans follow, with the same tables and a 30-day trial. Billing runs through Snowflake.</p>
+    </div>
+    <div class="pricing">
+      <div class="plan now"><span class="tag">Available now</span><h3>Launch</h3><div class="price">Free</div><p class="note">Full pack, every region, during the Marketplace launch period.</p><ul><li>All 21 tables, weekly refresh</li><li>Change log and provenance tables</li><li>Email support</li></ul><a class="btn btn-primary" href="https://app.snowflake.com/marketplace/listings?search=Channel%20Keys" rel="noopener">Get it on Snowflake</a></div>
+      <div class="plan"><h3>Standard</h3><div class="price">$299<small> per month</small></div><p class="note">After launch. 30-day free trial, cancel from Snowflake any time.</p><ul><li>Everything in Launch</li><li>Weekly email digest of changes</li><li>Priority data-issue turnaround</li></ul><a class="btn btn-secondary" href="mailto:hello@channelkeys.net?subject=Channel%20Keys%20Standard">Ask to be notified</a></div>
+      <div class="plan"><h3>Enterprise</h3><div class="price">Custom</div><p class="note">Private listing for your account with your joins.</p><ul><li>Custom tables and additional public sources</li><li>Slack or email change alerts per therapeutic area</li><li>Named support contact</li></ul><a class="btn btn-secondary" href="mailto:hello@channelkeys.net?subject=Channel%20Keys%20Enterprise">Talk to us</a></div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="faq-title">
+    <div class="section-head">
+      <h2 id="faq-title">Questions buyers ask</h2>
+      <p>Write to <a href="mailto:hello@channelkeys.net">hello@channelkeys.net</a> for anything not covered.</p>
+    </div>
+    <div class="faq">
+      <details><summary>Isn't this the same data I can download from FDA, CMS and HRSA?</summary><p>Yes, and that is the point. The sources are public. The work is the parsing, the keys, the joins, the derived fields, the weekly refresh and the change log, which every team otherwise rebuilds and maintains alone. <code>META_SOURCE_RUN</code> lists every agency file behind the current refresh so you can audit the chain.</p></details>
+      <details><summary>How current is it?</summary><p>Refreshed every Sunday morning US Eastern. FDA files change daily and are picked up weekly. Orange Book is monthly, Medicaid SDUD quarterly with restatements, 340B OPAIS daily, Open Payments twice a year. The ledger at the top of this page shows the agency timestamp behind each source.</p></details>
+      <details><summary>Does it contain protected health information?</summary><p>No. Everything comes from public agency files. Personal data is limited to fields the agencies publish, such as covered recipient names in Open Payments and authorizing officials in OPAIS, and we republish only those fields.</p></details>
+      <details><summary>How are loss-of-exclusivity dates estimated?</summary><p><code>EST_LOE_DATE</code> is the later of the last unexpired, non-delisted patent and the last exclusivity date for the application. It is a planning estimate, not a legal determination; litigation and pediatric extensions change it. Validate before using it in contracts.</p></details>
+      <details><summary>Which Snowflake regions and clouds?</summary><p>All of them. The listing uses cross-cloud auto-fulfillment, so the first time an account in a new region gets the data, Snowflake replicates it there, usually within a day. After that it refreshes with the rest.</p></details>
+      <details><summary>Can you add a source or a join we need?</summary><p>Usually. State Medicaid preferred drug lists, NPPES, CMS Part D spending and FDA shortages are on the roadmap. Enterprise plans get custom tables in a private listing; write to <a href="mailto:hello@channelkeys.net">hello@channelkeys.net</a>.</p></details>
+    </div>
+  </section>
+</div>
+
+<section class="band" aria-labelledby="cta-title">
+  <div class="wrap row">
+    <div><h2 id="cta-title">Stop maintaining the tables. Start querying them.</h2><p>Add Channel Keys to your Snowflake account in a minute. Free during launch.</p></div>
+    <div class="actions">
+      <a class="btn btn-primary btn-lg" href="https://app.snowflake.com/marketplace/listings?search=Channel%20Keys" rel="noopener">Get it on Snowflake Marketplace</a>
+      <a class="btn btn-secondary btn-lg" href="/docs.html">Data dictionary</a>
+    </div>
   </div>
-  <h2>Provenance</h2>
-  <p>All source data is published by U.S. government agencies (FDA, CMS, HRSA). Each refresh ships a <code>meta_source_run</code> table with the URL, size, SHA-256 and server timestamp of every file used. Derived fields (normalizations, joins, estimated LOE dates, manufacturer matches) are ours and should be validated before regulatory or contractual use. Channel Keys is not affiliated with or endorsed by FDA, CMS or HRSA.</p>
-  <h2>Contact</h2>
-  <p>Questions and data requests: <a href="mailto:hello@channelkeys.net">hello@channelkeys.net</a>. Support for Marketplace consumers: <a href="/support.html">support page</a>.</p>
+</section>
 </main>
-<footer><div class="wrap">© 2026 Channel Keys · Milford, Massachusetts · <a href="/privacy.html">Privacy</a> · <a href="/docs.html">Docs</a>
-  <a href="/support.html">Support</a></div></footer>
+
+<footer><div class="wrap">
+  <div class="cols">
+    <div><h4>Channel Keys</h4><p style="max-width:34ch">Pharma reference data on Snowflake Marketplace, built from U.S. federal public sources and refreshed weekly.</p></div>
+    <div><h4>Product</h4><ul><li><a href="https://app.snowflake.com/marketplace/listings?search=Channel%20Keys" rel="noopener">Marketplace listing</a></li><li><a href="/docs.html">Data dictionary</a></li><li><a href="#changes">This week's changes</a></li></ul></div>
+    <div><h4>Company</h4><ul><li><a href="/support.html">Support</a></li><li><a href="/privacy.html">Privacy</a></li></ul></div>
+    <div><h4>Contact</h4><ul><li><a href="mailto:hello@channelkeys.net">hello@channelkeys.net</a></li><li><a href="mailto:support@channelkeys.net">support@channelkeys.net</a></li></ul></div>
+  </div>
+  <p class="legal">© 2026 Channel Keys, Milford, Massachusetts. Not affiliated with or endorsed by FDA, CMS or HRSA. Source data is published by those agencies; normalizations, joins, estimated dates and matches are ours and should be validated before regulatory or contractual use.</p>
+</div></footer>
+<script src="site.js" defer></script>
 </body>
 </html>

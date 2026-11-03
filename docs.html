@@ -1,433 +1,445 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Documentation · Channel Keys</title><link rel="stylesheet" href="style.css">
-<style>table{border-collapse:collapse;width:100%;margin:10px 0 24px;font-size:14px}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:600}.toc{columns:2;font-size:14px}.toc li{margin:2px 0}</style>
-</head><body>
-<header><div class="wrap"><nav><a class="brand" href="/">Channel Keys <span>· pharma reference data</span></a><a href="/docs.html">Docs</a><a href="/support.html">Support</a><a href="/privacy.html">Privacy</a></nav></div></header>
-<main class="wrap">
-<h1>Documentation</h1>
-<p class="lead">Tables and columns in the Channel Keys listing on Snowflake Marketplace. Refer to objects as <code>CORE.&lt;TABLE&gt;</code> under the database name you choose when you get the listing.</p>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data dictionary · Channel Keys</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-root="">
+<header class="site-header"><div class="wrap"><nav class="nav" aria-label="Main">
+  <a class="brand" href="/" aria-label="Channel Keys home"><svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="6" class="mark"/><rect x="5" y="7" width="10" height="3.2" rx="1.6" fill="#4A5B73"/><rect x="5" y="12.4" width="16" height="3.2" rx="1.6" fill="#5EC2FF"/><rect x="5" y="17.8" width="13" height="3.2" rx="1.6" fill="#4A5B73"/></svg>Channel Keys</a>
+  <a class="link" href="/#inside">What's inside</a>
+  <a class="link" href="/#pricing">Pricing</a>
+  <a class="link keep" href="/docs.html" aria-current="page">Docs</a>
+  <a class="link keep" href="/support.html">Support</a>
+  <a class="btn btn-primary cta" href="https://app.snowflake.com/marketplace/listings?search=Channel%20Keys" rel="noopener">Get it<span class="long"> on Snowflake</span></a>
+</nav></div></header>
+
+<main class="wrap page">
+<h1>Data dictionary</h1>
+<p class="lead">Every table and column in the Channel Keys listing. Refer to objects as <code>CORE.&lt;TABLE&gt;</code> under the database name you choose when you get the listing. Column names are plain uppercase identifiers, so no quoting is needed.</p>
 <h2>Keys and conventions</h2>
 <ul>
 <li><code>NDC11</code>: 11-digit, zero-padded 5-4-2 NDC. <code>XREF_NDC_FORMATS</code> maps every FDA 10-digit format to it.</li>
-<li><code>APPL_TYPE</code> + <code>APPL_NO</code>: Orange Book application key (N = NDA, A = ANDA), <code>APPL_NO</code> zero-padded to 6 digits.</li>
-<li><code>LABELER_CODE</code>: first 5 digits of the NDC. <code>DIM_LABELER</code> carries the best labeler name and the matched Open Payments manufacturer.</li>
-<li><code>ID_340B</code>: HRSA covered entity ID. Contract pharmacies key on <code>ID_340B</code> + <code>CONTRACT_ID</code>.</li>
-<li><code>SNAPSHOT_DATE</code>: the refresh the row came from. <code>CHANGE_LOG</code> compares consecutive refreshes.</li>
-<li>Derived fields (<code>EST_LOE_DATE</code>, <code>IS_DISCONTINUED</code>, <code>IS_ACTIVE</code>, manufacturer matches) are ours; validate before regulatory or contractual use.</li>
+<li><code>APPL_TYPE</code> and <code>APPL_NO</code>: the Orange Book application key (N for NDA, A for ANDA), <code>APPL_NO</code> zero-padded to six digits.</li>
+<li><code>LABELER_CODE</code>: the first five digits of the NDC. <code>DIM_LABELER</code> carries the best labeler name and the matched Open Payments manufacturer with its match score.</li>
+<li><code>ID_340B</code>: the HRSA covered entity ID. Contract pharmacies key on <code>ID_340B</code> plus <code>CONTRACT_ID</code>.</li>
+<li><code>SNAPSHOT_DATE</code>: the refresh a row came from. <code>CHANGE_LOG</code> compares consecutive refreshes; <code>META_SOURCE_RUN</code> records the agency files behind each one.</li>
+<li>Derived fields (<code>EST_LOE_DATE</code>, <code>IS_DISCONTINUED</code>, <code>IS_ACTIVE</code>, manufacturer matches) are ours. Validate before regulatory or contractual use.</li>
 </ul>
-<h2>Tables</h2>
-<ul class="toc"><li><a href="#ndc_product">ndc_product</a></li><li><a href="#ndc_package">ndc_package</a></li><li><a href="#dim_ndc11">dim_ndc11</a></li><li><a href="#dim_labeler">dim_labeler</a></li><li><a href="#xref_ndc_formats">xref_ndc_formats</a></li><li><a href="#ob_product">ob_product</a></li><li><a href="#ob_patent">ob_patent</a></li><li><a href="#ob_exclusivity">ob_exclusivity</a></li><li><a href="#dim_application">dim_application</a></li><li><a href="#sdud_utilization">sdud_utilization</a></li><li><a href="#opais_covered_entity">opais_covered_entity</a></li><li><a href="#opais_contract_pharmacy">opais_contract_pharmacy</a></li><li><a href="#opais_ce_npi">opais_ce_npi</a></li><li><a href="#opais_ce_medicaid">opais_ce_medicaid</a></li><li><a href="#opais_ce_shipping">opais_ce_shipping</a></li><li><a href="#op_payment_summary">op_payment_summary</a></li><li><a href="#op_product_summary">op_product_summary</a></li><li><a href="#op_recipient_manufacturer_year">op_recipient_manufacturer_year</a></li><li><a href="#op_entity_profile">op_entity_profile</a></li><li><a href="#change_log">change_log</a></li><li><a href="#meta_source_run">meta_source_run</a></li></ul>
-<h2 id="ndc_product"><code>ndc_product</code> <span class="muted">(345,642 rows)</span></h2>
+<h2>Tables</h2><ul class="toc"><li><a href="#NDC_PRODUCT">NDC_PRODUCT</a></li><li><a href="#NDC_PACKAGE">NDC_PACKAGE</a></li><li><a href="#DIM_NDC11">DIM_NDC11</a></li><li><a href="#DIM_LABELER">DIM_LABELER</a></li><li><a href="#XREF_NDC_FORMATS">XREF_NDC_FORMATS</a></li><li><a href="#OB_PRODUCT">OB_PRODUCT</a></li><li><a href="#OB_PATENT">OB_PATENT</a></li><li><a href="#OB_EXCLUSIVITY">OB_EXCLUSIVITY</a></li><li><a href="#DIM_APPLICATION">DIM_APPLICATION</a></li><li><a href="#SDUD_UTILIZATION">SDUD_UTILIZATION</a></li><li><a href="#OPAIS_COVERED_ENTITY">OPAIS_COVERED_ENTITY</a></li><li><a href="#OPAIS_CONTRACT_PHARMACY">OPAIS_CONTRACT_PHARMACY</a></li><li><a href="#OPAIS_CE_NPI">OPAIS_CE_NPI</a></li><li><a href="#OPAIS_CE_MEDICAID">OPAIS_CE_MEDICAID</a></li><li><a href="#OPAIS_CE_SHIPPING">OPAIS_CE_SHIPPING</a></li><li><a href="#OP_PAYMENT_SUMMARY">OP_PAYMENT_SUMMARY</a></li><li><a href="#OP_PRODUCT_SUMMARY">OP_PRODUCT_SUMMARY</a></li><li><a href="#OP_RECIPIENT_MANUFACTURER_YEAR">OP_RECIPIENT_MANUFACTURER_YEAR</a></li><li><a href="#OP_ENTITY_PROFILE">OP_ENTITY_PROFILE</a></li><li><a href="#CHANGE_LOG">CHANGE_LOG</a></li><li><a href="#META_SOURCE_RUN">META_SOURCE_RUN</a></li></ul><h2 id="NDC_PRODUCT"><code>NDC_PRODUCT</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">345,642 rows</span></h2>
 <p>FDA NDC Directory product rows (finished, excluded and unfinished files) with typed dates and normalized application numbers.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>product_id</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_ndc</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_ndc9</code></td><td>VARCHAR</td></tr>
-<tr><td><code>labeler_code</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_code</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>proprietary_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>proprietary_name_suffix</code></td><td>VARCHAR</td></tr>
-<tr><td><code>nonproprietary_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>dosage_form</code></td><td>VARCHAR</td></tr>
-<tr><td><code>route</code></td><td>VARCHAR</td></tr>
-<tr><td><code>start_marketing_date</code></td><td>DATE</td></tr>
-<tr><td><code>end_marketing_date</code></td><td>DATE</td></tr>
-<tr><td><code>marketing_category</code></td><td>VARCHAR</td></tr>
-<tr><td><code>application_number</code></td><td>VARCHAR</td></tr>
-<tr><td><code>appl_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>appl_no</code></td><td>VARCHAR</td></tr>
-<tr><td><code>labeler_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>substance_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>active_numerator_strength</code></td><td>VARCHAR</td></tr>
-<tr><td><code>active_ingred_unit</code></td><td>VARCHAR</td></tr>
-<tr><td><code>pharm_classes</code></td><td>VARCHAR</td></tr>
-<tr><td><code>dea_schedule</code></td><td>VARCHAR</td></tr>
-<tr><td><code>ndc_exclude_flag</code></td><td>VARCHAR</td></tr>
-<tr><td><code>listing_record_certified_through</code></td><td>DATE</td></tr>
-<tr><td><code>source_file</code></td><td>VARCHAR</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>PRODUCT_ID</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_NDC</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_NDC9</code></td><td>VARCHAR</td></tr>
+<tr><td><code>LABELER_CODE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_CODE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PROPRIETARY_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PROPRIETARY_NAME_SUFFIX</code></td><td>VARCHAR</td></tr>
+<tr><td><code>NONPROPRIETARY_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>DOSAGE_FORM</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ROUTE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>START_MARKETING_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>END_MARKETING_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>MARKETING_CATEGORY</code></td><td>VARCHAR</td></tr>
+<tr><td><code>APPLICATION_NUMBER</code></td><td>VARCHAR</td></tr>
+<tr><td><code>APPL_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>APPL_NO</code></td><td>VARCHAR</td></tr>
+<tr><td><code>LABELER_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SUBSTANCE_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ACTIVE_NUMERATOR_STRENGTH</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ACTIVE_INGRED_UNIT</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PHARM_CLASSES</code></td><td>VARCHAR</td></tr>
+<tr><td><code>DEA_SCHEDULE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>NDC_EXCLUDE_FLAG</code></td><td>VARCHAR</td></tr>
+<tr><td><code>LISTING_RECORD_CERTIFIED_THROUGH</code></td><td>DATE</td></tr>
+<tr><td><code>SOURCE_FILE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="ndc_package"><code>ndc_package</code> <span class="muted">(640,244 rows)</span></h2>
+<h2 id="NDC_PACKAGE"><code>NDC_PACKAGE</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">640,244 rows</span></h2>
 <p>FDA NDC Directory package rows with the 11-digit NDC.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>product_id</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_ndc</code></td><td>VARCHAR</td></tr>
-<tr><td><code>ndc_package_code</code></td><td>VARCHAR</td></tr>
-<tr><td><code>ndc11</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_ndc9</code></td><td>VARCHAR</td></tr>
-<tr><td><code>package_description</code></td><td>VARCHAR</td></tr>
-<tr><td><code>start_marketing_date</code></td><td>DATE</td></tr>
-<tr><td><code>end_marketing_date</code></td><td>DATE</td></tr>
-<tr><td><code>ndc_exclude_flag</code></td><td>VARCHAR</td></tr>
-<tr><td><code>sample_package</code></td><td>VARCHAR</td></tr>
-<tr><td><code>source_file</code></td><td>VARCHAR</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>PRODUCT_ID</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_NDC</code></td><td>VARCHAR</td></tr>
+<tr><td><code>NDC_PACKAGE_CODE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>NDC11</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_NDC9</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PACKAGE_DESCRIPTION</code></td><td>VARCHAR</td></tr>
+<tr><td><code>START_MARKETING_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>END_MARKETING_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>NDC_EXCLUDE_FLAG</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SAMPLE_PACKAGE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SOURCE_FILE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="dim_ndc11"><code>dim_ndc11</code> <span class="muted">(638,180 rows)</span></h2>
+<h2 id="DIM_NDC11"><code>DIM_NDC11</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">638,180 rows</span></h2>
 <p>One row per 11-digit NDC (5-4-2) with product, labeler, application, marketing dates, Orange Book LOE fields and discontinuation flag. Precedence: finished &gt; unfinished &gt; excluded.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>ndc11</code></td><td>VARCHAR</td></tr>
-<tr><td><code>ndc_package_code</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_ndc</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_ndc9</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_id</code></td><td>VARCHAR</td></tr>
-<tr><td><code>labeler_code</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_code</code></td><td>VARCHAR</td></tr>
-<tr><td><code>package_code</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>proprietary_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>proprietary_name_suffix</code></td><td>VARCHAR</td></tr>
-<tr><td><code>nonproprietary_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>dosage_form</code></td><td>VARCHAR</td></tr>
-<tr><td><code>route</code></td><td>VARCHAR</td></tr>
-<tr><td><code>substance_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>active_numerator_strength</code></td><td>VARCHAR</td></tr>
-<tr><td><code>active_ingred_unit</code></td><td>VARCHAR</td></tr>
-<tr><td><code>pharm_classes</code></td><td>VARCHAR</td></tr>
-<tr><td><code>dea_schedule</code></td><td>VARCHAR</td></tr>
-<tr><td><code>marketing_category</code></td><td>VARCHAR</td></tr>
-<tr><td><code>application_number</code></td><td>VARCHAR</td></tr>
-<tr><td><code>appl_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>appl_no</code></td><td>VARCHAR</td></tr>
-<tr><td><code>labeler_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>package_description</code></td><td>VARCHAR</td></tr>
-<tr><td><code>sample_package</code></td><td>VARCHAR</td></tr>
-<tr><td><code>start_marketing_date</code></td><td>DATE</td></tr>
-<tr><td><code>end_marketing_date</code></td><td>DATE</td></tr>
-<tr><td><code>source_file</code></td><td>VARCHAR</td></tr>
-<tr><td><code>is_discontinued</code></td><td>BOOLEAN</td></tr>
-<tr><td><code>in_orange_book</code></td><td>BOOLEAN</td></tr>
-<tr><td><code>ob_any_rld</code></td><td>BOOLEAN</td></tr>
-<tr><td><code>last_patent_expiry</code></td><td>DATE</td></tr>
-<tr><td><code>last_exclusivity_date</code></td><td>DATE</td></tr>
-<tr><td><code>est_loe_date</code></td><td>DATE</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
-<tr><td><code>n_source_rows</code></td><td>BIGINT</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>NDC11</code></td><td>VARCHAR</td></tr>
+<tr><td><code>NDC_PACKAGE_CODE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_NDC</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_NDC9</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_ID</code></td><td>VARCHAR</td></tr>
+<tr><td><code>LABELER_CODE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_CODE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PACKAGE_CODE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PROPRIETARY_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PROPRIETARY_NAME_SUFFIX</code></td><td>VARCHAR</td></tr>
+<tr><td><code>NONPROPRIETARY_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>DOSAGE_FORM</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ROUTE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SUBSTANCE_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ACTIVE_NUMERATOR_STRENGTH</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ACTIVE_INGRED_UNIT</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PHARM_CLASSES</code></td><td>VARCHAR</td></tr>
+<tr><td><code>DEA_SCHEDULE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>MARKETING_CATEGORY</code></td><td>VARCHAR</td></tr>
+<tr><td><code>APPLICATION_NUMBER</code></td><td>VARCHAR</td></tr>
+<tr><td><code>APPL_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>APPL_NO</code></td><td>VARCHAR</td></tr>
+<tr><td><code>LABELER_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PACKAGE_DESCRIPTION</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SAMPLE_PACKAGE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>START_MARKETING_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>END_MARKETING_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>SOURCE_FILE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>IS_DISCONTINUED</code></td><td>BOOLEAN</td></tr>
+<tr><td><code>IN_ORANGE_BOOK</code></td><td>BOOLEAN</td></tr>
+<tr><td><code>OB_ANY_RLD</code></td><td>BOOLEAN</td></tr>
+<tr><td><code>LAST_PATENT_EXPIRY</code></td><td>DATE</td></tr>
+<tr><td><code>LAST_EXCLUSIVITY_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>EST_LOE_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>N_SOURCE_ROWS</code></td><td>BIGINT</td></tr>
 </tbody></table>
-<h2 id="dim_labeler"><code>dim_labeler</code> <span class="muted">(18,241 rows)</span></h2>
+<h2 id="DIM_LABELER"><code>DIM_LABELER</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">18,241 rows</span></h2>
 <p>One row per labeler code with best name, product counts, marketing-date range and the matched CMS Open Payments manufacturer (exact or fuzzy, score shown).</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>labeler_code</code></td><td>VARCHAR</td></tr>
-<tr><td><code>labeler_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>labeler_name_norm</code></td><td>VARCHAR</td></tr>
-<tr><td><code>n_products</code></td><td>BIGINT</td></tr>
-<tr><td><code>n_active_products</code></td><td>BIGINT</td></tr>
-<tr><td><code>n_packages</code></td><td>BIGINT</td></tr>
-<tr><td><code>first_marketing_date</code></td><td>DATE</td></tr>
-<tr><td><code>last_marketing_date</code></td><td>DATE</td></tr>
-<tr><td><code>op_manufacturer_id</code></td><td>VARCHAR</td></tr>
-<tr><td><code>op_manufacturer_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>op_match_method</code></td><td>VARCHAR</td></tr>
-<tr><td><code>op_match_score</code></td><td>DOUBLE</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>LABELER_CODE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>LABELER_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>LABELER_NAME_NORM</code></td><td>VARCHAR</td></tr>
+<tr><td><code>N_PRODUCTS</code></td><td>BIGINT</td></tr>
+<tr><td><code>N_ACTIVE_PRODUCTS</code></td><td>BIGINT</td></tr>
+<tr><td><code>N_PACKAGES</code></td><td>BIGINT</td></tr>
+<tr><td><code>FIRST_MARKETING_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>LAST_MARKETING_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>OP_MANUFACTURER_ID</code></td><td>VARCHAR</td></tr>
+<tr><td><code>OP_MANUFACTURER_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>OP_MATCH_METHOD</code></td><td>VARCHAR</td></tr>
+<tr><td><code>OP_MATCH_SCORE</code></td><td>DOUBLE</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="xref_ndc_formats"><code>xref_ndc_formats</code> <span class="muted">(640,244 rows)</span></h2>
+<h2 id="XREF_NDC_FORMATS"><code>XREF_NDC_FORMATS</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">640,244 rows</span></h2>
 <p>Crosswalk between FDA 10-digit hyphenated NDCs (4-4-2, 5-3-2, 5-4-1), 10-digit unhyphenated and the 11-digit claims format.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>ndc11</code></td><td>VARCHAR</td></tr>
-<tr><td><code>ndc10_hyphenated</code></td><td>VARCHAR</td></tr>
-<tr><td><code>ndc10_digits</code></td><td>VARCHAR</td></tr>
-<tr><td><code>ndc11_hyphenated</code></td><td>VARCHAR</td></tr>
-<tr><td><code>fda_format</code></td><td>VARCHAR</td></tr>
-<tr><td><code>source_file</code></td><td>VARCHAR</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>NDC11</code></td><td>VARCHAR</td></tr>
+<tr><td><code>NDC10_HYPHENATED</code></td><td>VARCHAR</td></tr>
+<tr><td><code>NDC10_DIGITS</code></td><td>VARCHAR</td></tr>
+<tr><td><code>NDC11_HYPHENATED</code></td><td>VARCHAR</td></tr>
+<tr><td><code>FDA_FORMAT</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SOURCE_FILE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="ob_product"><code>ob_product</code> <span class="muted">(48,865 rows)</span></h2>
+<h2 id="OB_PRODUCT"><code>OB_PRODUCT</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">48,865 rows</span></h2>
 <p>Orange Book products (applicant, TE code, RLD/RS flags, approval date).</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>ingredient</code></td><td>VARCHAR</td></tr>
-<tr><td><code>df_route</code></td><td>VARCHAR</td></tr>
-<tr><td><code>trade_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>applicant</code></td><td>VARCHAR</td></tr>
-<tr><td><code>strength</code></td><td>VARCHAR</td></tr>
-<tr><td><code>appl_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>appl_no</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_no</code></td><td>VARCHAR</td></tr>
-<tr><td><code>te_code</code></td><td>VARCHAR</td></tr>
-<tr><td><code>approval_date</code></td><td>DATE</td></tr>
-<tr><td><code>approval_date_text</code></td><td>VARCHAR</td></tr>
-<tr><td><code>rld</code></td><td>VARCHAR</td></tr>
-<tr><td><code>rs</code></td><td>VARCHAR</td></tr>
-<tr><td><code>ob_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>applicant_full_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>INGREDIENT</code></td><td>VARCHAR</td></tr>
+<tr><td><code>DF_ROUTE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>TRADE_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>APPLICANT</code></td><td>VARCHAR</td></tr>
+<tr><td><code>STRENGTH</code></td><td>VARCHAR</td></tr>
+<tr><td><code>APPL_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>APPL_NO</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_NO</code></td><td>VARCHAR</td></tr>
+<tr><td><code>TE_CODE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>APPROVAL_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>APPROVAL_DATE_TEXT</code></td><td>VARCHAR</td></tr>
+<tr><td><code>RLD</code></td><td>VARCHAR</td></tr>
+<tr><td><code>RS</code></td><td>VARCHAR</td></tr>
+<tr><td><code>OB_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>APPLICANT_FULL_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="ob_patent"><code>ob_patent</code> <span class="muted">(22,438 rows)</span></h2>
+<h2 id="OB_PATENT"><code>OB_PATENT</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">22,438 rows</span></h2>
 <p>Orange Book patents with expiry dates, use codes and delist flags.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>appl_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>appl_no</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_no</code></td><td>VARCHAR</td></tr>
-<tr><td><code>patent_no</code></td><td>VARCHAR</td></tr>
-<tr><td><code>patent_expire_date</code></td><td>DATE</td></tr>
-<tr><td><code>drug_substance_flag</code></td><td>VARCHAR</td></tr>
-<tr><td><code>drug_product_flag</code></td><td>VARCHAR</td></tr>
-<tr><td><code>patent_use_code</code></td><td>VARCHAR</td></tr>
-<tr><td><code>delist_flag</code></td><td>VARCHAR</td></tr>
-<tr><td><code>submission_date</code></td><td>DATE</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>APPL_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>APPL_NO</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_NO</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PATENT_NO</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PATENT_EXPIRE_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>DRUG_SUBSTANCE_FLAG</code></td><td>VARCHAR</td></tr>
+<tr><td><code>DRUG_PRODUCT_FLAG</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PATENT_USE_CODE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>DELIST_FLAG</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SUBMISSION_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="ob_exclusivity"><code>ob_exclusivity</code> <span class="muted">(2,421 rows)</span></h2>
+<h2 id="OB_EXCLUSIVITY"><code>OB_EXCLUSIVITY</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">2,347 rows</span></h2>
 <p>Orange Book exclusivity codes and dates.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>appl_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>appl_no</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_no</code></td><td>VARCHAR</td></tr>
-<tr><td><code>exclusivity_code</code></td><td>VARCHAR</td></tr>
-<tr><td><code>exclusivity_date</code></td><td>DATE</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>APPL_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>APPL_NO</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_NO</code></td><td>VARCHAR</td></tr>
+<tr><td><code>EXCLUSIVITY_CODE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>EXCLUSIVITY_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="dim_application"><code>dim_application</code> <span class="muted">(27,428 rows)</span></h2>
+<h2 id="DIM_APPLICATION"><code>DIM_APPLICATION</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">27,428 rows</span></h2>
 <p>One row per NDA/ANDA with first approval, last patent expiry, last exclusivity, estimated loss-of-exclusivity date and linked NDC product counts.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>appl_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>appl_no</code></td><td>VARCHAR</td></tr>
-<tr><td><code>n_ob_products</code></td><td>BIGINT</td></tr>
-<tr><td><code>applicant</code></td><td>VARCHAR</td></tr>
-<tr><td><code>applicant_full_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>first_approval_date</code></td><td>DATE</td></tr>
-<tr><td><code>any_rld</code></td><td>BOOLEAN</td></tr>
-<tr><td><code>trade_names</code></td><td>VARCHAR[]</td></tr>
-<tr><td><code>last_patent_expiry</code></td><td>DATE</td></tr>
-<tr><td><code>n_patents</code></td><td>BIGINT</td></tr>
-<tr><td><code>last_exclusivity_date</code></td><td>DATE</td></tr>
-<tr><td><code>exclusivity_codes</code></td><td>VARCHAR[]</td></tr>
-<tr><td><code>est_loe_date</code></td><td>DATE</td></tr>
-<tr><td><code>n_ndc_products</code></td><td>BIGINT</td></tr>
-<tr><td><code>n_labelers</code></td><td>BIGINT</td></tr>
-<tr><td><code>first_ndc_marketing_date</code></td><td>DATE</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>APPL_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>APPL_NO</code></td><td>VARCHAR</td></tr>
+<tr><td><code>N_OB_PRODUCTS</code></td><td>BIGINT</td></tr>
+<tr><td><code>APPLICANT</code></td><td>VARCHAR</td></tr>
+<tr><td><code>APPLICANT_FULL_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>FIRST_APPROVAL_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>ANY_RLD</code></td><td>BOOLEAN</td></tr>
+<tr><td><code>TRADE_NAMES</code></td><td>VARCHAR[]</td></tr>
+<tr><td><code>LAST_PATENT_EXPIRY</code></td><td>DATE</td></tr>
+<tr><td><code>N_PATENTS</code></td><td>BIGINT</td></tr>
+<tr><td><code>LAST_EXCLUSIVITY_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>EXCLUSIVITY_CODES</code></td><td>VARCHAR[]</td></tr>
+<tr><td><code>EST_LOE_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>N_NDC_PRODUCTS</code></td><td>BIGINT</td></tr>
+<tr><td><code>N_LABELERS</code></td><td>BIGINT</td></tr>
+<tr><td><code>FIRST_NDC_MARKETING_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="sdud_utilization"><code>sdud_utilization</code> <span class="muted">(17,221,265 rows)</span></h2>
+<h2 id="SDUD_UTILIZATION"><code>SDUD_UTILIZATION</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">17,221,265 rows</span></h2>
 <p>Medicaid State Drug Utilization Data by state, NDC, year and quarter (FFS and MCO), typed measures and suppression flag.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>utilization_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>state</code></td><td>VARCHAR</td></tr>
-<tr><td><code>ndc11</code></td><td>VARCHAR</td></tr>
-<tr><td><code>labeler_code</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_code</code></td><td>VARCHAR</td></tr>
-<tr><td><code>package_code</code></td><td>VARCHAR</td></tr>
-<tr><td><code>year</code></td><td>INTEGER</td></tr>
-<tr><td><code>quarter</code></td><td>INTEGER</td></tr>
-<tr><td><code>year_quarter</code></td><td>INTEGER</td></tr>
-<tr><td><code>suppression_used</code></td><td>BOOLEAN</td></tr>
-<tr><td><code>product_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>units_reimbursed</code></td><td>DOUBLE</td></tr>
-<tr><td><code>number_of_prescriptions</code></td><td>DOUBLE</td></tr>
-<tr><td><code>total_amount_reimbursed</code></td><td>DOUBLE</td></tr>
-<tr><td><code>medicaid_amount_reimbursed</code></td><td>DOUBLE</td></tr>
-<tr><td><code>non_medicaid_amount_reimbursed</code></td><td>DOUBLE</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>UTILIZATION_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>STATE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>NDC11</code></td><td>VARCHAR</td></tr>
+<tr><td><code>LABELER_CODE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_CODE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PACKAGE_CODE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>YEAR</code></td><td>INTEGER</td></tr>
+<tr><td><code>QUARTER</code></td><td>INTEGER</td></tr>
+<tr><td><code>YEAR_QUARTER</code></td><td>INTEGER</td></tr>
+<tr><td><code>SUPPRESSION_USED</code></td><td>BOOLEAN</td></tr>
+<tr><td><code>PRODUCT_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>UNITS_REIMBURSED</code></td><td>DOUBLE</td></tr>
+<tr><td><code>NUMBER_OF_PRESCRIPTIONS</code></td><td>DOUBLE</td></tr>
+<tr><td><code>TOTAL_AMOUNT_REIMBURSED</code></td><td>DOUBLE</td></tr>
+<tr><td><code>MEDICAID_AMOUNT_REIMBURSED</code></td><td>DOUBLE</td></tr>
+<tr><td><code>NON_MEDICAID_AMOUNT_REIMBURSED</code></td><td>DOUBLE</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="opais_covered_entity"><code>opais_covered_entity</code> <span class="muted">(94,951 rows)</span></h2>
+<h2 id="OPAIS_COVERED_ENTITY"><code>OPAIS_COVERED_ENTITY</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">94,951 rows</span></h2>
 <p>340B OPAIS covered entities (participating and terminated) with addresses, officials and termination details.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>id_340b</code></td><td>VARCHAR</td></tr>
-<tr><td><code>ce_id</code></td><td>BIGINT</td></tr>
-<tr><td><code>entity_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_sub_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>participating</code></td><td>VARCHAR</td></tr>
-<tr><td><code>participating_start_date</code></td><td>DATE</td></tr>
-<tr><td><code>termination_date</code></td><td>DATE</td></tr>
-<tr><td><code>termination_reason</code></td><td>VARCHAR</td></tr>
-<tr><td><code>grant_number</code></td><td>VARCHAR</td></tr>
-<tr><td><code>site_id</code></td><td>VARCHAR</td></tr>
-<tr><td><code>medicare_provider_number</code></td><td>&quot;NULL&quot;</td></tr>
-<tr><td><code>nofo_number</code></td><td>VARCHAR</td></tr>
-<tr><td><code>assistance_from_date</code></td><td>DATE</td></tr>
-<tr><td><code>assistance_to_date</code></td><td>DATE</td></tr>
-<tr><td><code>rural</code></td><td>BOOLEAN</td></tr>
-<tr><td><code>street_organization</code></td><td>&quot;NULL&quot;</td></tr>
-<tr><td><code>street_address1</code></td><td>VARCHAR</td></tr>
-<tr><td><code>street_address2</code></td><td>VARCHAR</td></tr>
-<tr><td><code>street_address3</code></td><td>VARCHAR</td></tr>
-<tr><td><code>street_city</code></td><td>VARCHAR</td></tr>
-<tr><td><code>street_state</code></td><td>VARCHAR</td></tr>
-<tr><td><code>street_zip</code></td><td>VARCHAR</td></tr>
-<tr><td><code>street_zip4</code></td><td>VARCHAR</td></tr>
-<tr><td><code>billing_organization</code></td><td>VARCHAR</td></tr>
-<tr><td><code>billing_address1</code></td><td>VARCHAR</td></tr>
-<tr><td><code>billing_address2</code></td><td>VARCHAR</td></tr>
-<tr><td><code>billing_address3</code></td><td>VARCHAR</td></tr>
-<tr><td><code>billing_city</code></td><td>VARCHAR</td></tr>
-<tr><td><code>billing_state</code></td><td>VARCHAR</td></tr>
-<tr><td><code>billing_zip</code></td><td>VARCHAR</td></tr>
-<tr><td><code>billing_zip4</code></td><td>VARCHAR</td></tr>
-<tr><td><code>authorizing_official_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>authorizing_official_title</code></td><td>VARCHAR</td></tr>
-<tr><td><code>authorizing_official_phone</code></td><td>VARCHAR</td></tr>
-<tr><td><code>primary_contact_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>primary_contact_title</code></td><td>VARCHAR</td></tr>
-<tr><td><code>primary_contact_phone</code></td><td>VARCHAR</td></tr>
-<tr><td><code>certified_decertified_date</code></td><td>TIMESTAMP</td></tr>
-<tr><td><code>comments</code></td><td>VARCHAR</td></tr>
-<tr><td><code>edit_date</code></td><td>TIMESTAMP</td></tr>
-<tr><td><code>n_contract_pharmacies</code></td><td>BIGINT</td></tr>
-<tr><td><code>is_participating</code></td><td>BOOLEAN</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>ID_340B</code></td><td>VARCHAR</td></tr>
+<tr><td><code>CE_ID</code></td><td>BIGINT</td></tr>
+<tr><td><code>ENTITY_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_SUB_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PARTICIPATING</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PARTICIPATING_START_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>TERMINATION_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>TERMINATION_REASON</code></td><td>VARCHAR</td></tr>
+<tr><td><code>GRANT_NUMBER</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SITE_ID</code></td><td>VARCHAR</td></tr>
+<tr><td><code>MEDICARE_PROVIDER_NUMBER</code></td><td>&quot;NULL&quot;</td></tr>
+<tr><td><code>NOFO_NUMBER</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ASSISTANCE_FROM_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>ASSISTANCE_TO_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>RURAL</code></td><td>BOOLEAN</td></tr>
+<tr><td><code>STREET_ORGANIZATION</code></td><td>&quot;NULL&quot;</td></tr>
+<tr><td><code>STREET_ADDRESS1</code></td><td>VARCHAR</td></tr>
+<tr><td><code>STREET_ADDRESS2</code></td><td>VARCHAR</td></tr>
+<tr><td><code>STREET_ADDRESS3</code></td><td>VARCHAR</td></tr>
+<tr><td><code>STREET_CITY</code></td><td>VARCHAR</td></tr>
+<tr><td><code>STREET_STATE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>STREET_ZIP</code></td><td>VARCHAR</td></tr>
+<tr><td><code>STREET_ZIP4</code></td><td>VARCHAR</td></tr>
+<tr><td><code>BILLING_ORGANIZATION</code></td><td>VARCHAR</td></tr>
+<tr><td><code>BILLING_ADDRESS1</code></td><td>VARCHAR</td></tr>
+<tr><td><code>BILLING_ADDRESS2</code></td><td>VARCHAR</td></tr>
+<tr><td><code>BILLING_ADDRESS3</code></td><td>VARCHAR</td></tr>
+<tr><td><code>BILLING_CITY</code></td><td>VARCHAR</td></tr>
+<tr><td><code>BILLING_STATE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>BILLING_ZIP</code></td><td>VARCHAR</td></tr>
+<tr><td><code>BILLING_ZIP4</code></td><td>VARCHAR</td></tr>
+<tr><td><code>AUTHORIZING_OFFICIAL_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>AUTHORIZING_OFFICIAL_TITLE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>AUTHORIZING_OFFICIAL_PHONE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRIMARY_CONTACT_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRIMARY_CONTACT_TITLE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRIMARY_CONTACT_PHONE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>CERTIFIED_DECERTIFIED_DATE</code></td><td>TIMESTAMP</td></tr>
+<tr><td><code>COMMENTS</code></td><td>VARCHAR</td></tr>
+<tr><td><code>EDIT_DATE</code></td><td>TIMESTAMP</td></tr>
+<tr><td><code>N_CONTRACT_PHARMACIES</code></td><td>BIGINT</td></tr>
+<tr><td><code>IS_PARTICIPATING</code></td><td>BOOLEAN</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="opais_contract_pharmacy"><code>opais_contract_pharmacy</code> <span class="muted">(409,900 rows)</span></h2>
+<h2 id="OPAIS_CONTRACT_PHARMACY"><code>OPAIS_CONTRACT_PHARMACY</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">409,900 rows</span></h2>
 <p>340B contract pharmacy arrangements per covered entity with begin and termination dates and an is_active flag.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>id_340b</code></td><td>VARCHAR</td></tr>
-<tr><td><code>ce_id</code></td><td>BIGINT</td></tr>
-<tr><td><code>pharmacy_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>contract_id</code></td><td>BIGINT</td></tr>
-<tr><td><code>pharmacy_id</code></td><td>BIGINT</td></tr>
-<tr><td><code>contract_begin_date</code></td><td>DATE</td></tr>
-<tr><td><code>contract_termination_date</code></td><td>DATE</td></tr>
-<tr><td><code>pharmacy_organization</code></td><td>&quot;NULL&quot;</td></tr>
-<tr><td><code>pharmacy_address1</code></td><td>VARCHAR</td></tr>
-<tr><td><code>pharmacy_address2</code></td><td>VARCHAR</td></tr>
-<tr><td><code>pharmacy_address3</code></td><td>VARCHAR</td></tr>
-<tr><td><code>pharmacy_city</code></td><td>VARCHAR</td></tr>
-<tr><td><code>pharmacy_state</code></td><td>VARCHAR</td></tr>
-<tr><td><code>pharmacy_zip</code></td><td>VARCHAR</td></tr>
-<tr><td><code>pharmacy_zip4</code></td><td>VARCHAR</td></tr>
-<tr><td><code>pharmacy_phone</code></td><td>VARCHAR</td></tr>
-<tr><td><code>pharmacy_phone_ext</code></td><td>VARCHAR</td></tr>
-<tr><td><code>is_active</code></td><td>BOOLEAN</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>ID_340B</code></td><td>VARCHAR</td></tr>
+<tr><td><code>CE_ID</code></td><td>BIGINT</td></tr>
+<tr><td><code>PHARMACY_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>CONTRACT_ID</code></td><td>BIGINT</td></tr>
+<tr><td><code>PHARMACY_ID</code></td><td>BIGINT</td></tr>
+<tr><td><code>CONTRACT_BEGIN_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>CONTRACT_TERMINATION_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>PHARMACY_ORGANIZATION</code></td><td>&quot;NULL&quot;</td></tr>
+<tr><td><code>PHARMACY_ADDRESS1</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PHARMACY_ADDRESS2</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PHARMACY_ADDRESS3</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PHARMACY_CITY</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PHARMACY_STATE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PHARMACY_ZIP</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PHARMACY_ZIP4</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PHARMACY_PHONE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PHARMACY_PHONE_EXT</code></td><td>VARCHAR</td></tr>
+<tr><td><code>IS_ACTIVE</code></td><td>BOOLEAN</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="opais_ce_npi"><code>opais_ce_npi</code> <span class="muted">(759,991 rows)</span></h2>
+<h2 id="OPAIS_CE_NPI"><code>OPAIS_CE_NPI</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">759,991 rows</span></h2>
 <p>NPIs registered to each 340B covered entity.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>id_340b</code></td><td>VARCHAR</td></tr>
-<tr><td><code>ce_id</code></td><td>BIGINT</td></tr>
-<tr><td><code>npi</code></td><td>VARCHAR</td></tr>
-<tr><td><code>state</code></td><td>VARCHAR</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>ID_340B</code></td><td>VARCHAR</td></tr>
+<tr><td><code>CE_ID</code></td><td>BIGINT</td></tr>
+<tr><td><code>NPI</code></td><td>VARCHAR</td></tr>
+<tr><td><code>STATE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="opais_ce_medicaid"><code>opais_ce_medicaid</code> <span class="muted">(297,056 rows)</span></h2>
+<h2 id="OPAIS_CE_MEDICAID"><code>OPAIS_CE_MEDICAID</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">297,056 rows</span></h2>
 <p>Medicaid billing numbers registered to each 340B covered entity.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>id_340b</code></td><td>VARCHAR</td></tr>
-<tr><td><code>ce_id</code></td><td>BIGINT</td></tr>
-<tr><td><code>medicaid_number</code></td><td>VARCHAR</td></tr>
-<tr><td><code>state</code></td><td>VARCHAR</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>ID_340B</code></td><td>VARCHAR</td></tr>
+<tr><td><code>CE_ID</code></td><td>BIGINT</td></tr>
+<tr><td><code>MEDICAID_NUMBER</code></td><td>VARCHAR</td></tr>
+<tr><td><code>STATE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="opais_ce_shipping"><code>opais_ce_shipping</code> <span class="muted">(165,048 rows)</span></h2>
+<h2 id="OPAIS_CE_SHIPPING"><code>OPAIS_CE_SHIPPING</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">165,048 rows</span></h2>
 <p>Ship-to addresses registered to each 340B covered entity.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>id_340b</code></td><td>VARCHAR</td></tr>
-<tr><td><code>ce_id</code></td><td>BIGINT</td></tr>
-<tr><td><code>is_340b_street_address</code></td><td>BOOLEAN</td></tr>
-<tr><td><code>shipping_organization</code></td><td>VARCHAR</td></tr>
-<tr><td><code>shipping_address1</code></td><td>VARCHAR</td></tr>
-<tr><td><code>shipping_address2</code></td><td>VARCHAR</td></tr>
-<tr><td><code>shipping_address3</code></td><td>VARCHAR</td></tr>
-<tr><td><code>shipping_city</code></td><td>VARCHAR</td></tr>
-<tr><td><code>shipping_state</code></td><td>VARCHAR</td></tr>
-<tr><td><code>shipping_zip</code></td><td>VARCHAR</td></tr>
-<tr><td><code>shipping_zip4</code></td><td>VARCHAR</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>ID_340B</code></td><td>VARCHAR</td></tr>
+<tr><td><code>CE_ID</code></td><td>BIGINT</td></tr>
+<tr><td><code>IS_340B_STREET_ADDRESS</code></td><td>BOOLEAN</td></tr>
+<tr><td><code>SHIPPING_ORGANIZATION</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SHIPPING_ADDRESS1</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SHIPPING_ADDRESS2</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SHIPPING_ADDRESS3</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SHIPPING_CITY</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SHIPPING_STATE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SHIPPING_ZIP</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SHIPPING_ZIP4</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="op_payment_summary"><code>op_payment_summary</code> <span class="muted">(20,631 rows)</span></h2>
+<h2 id="OP_PAYMENT_SUMMARY"><code>OP_PAYMENT_SUMMARY</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">20,631 rows</span></h2>
 <p>CMS Open Payments general payments summarized by manufacturer, program year, recipient type, nature and form of payment.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>manufacturer_id</code></td><td>VARCHAR</td></tr>
-<tr><td><code>manufacturer_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>program_year</code></td><td>INTEGER</td></tr>
-<tr><td><code>covered_recipient_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>nature_of_payment</code></td><td>VARCHAR</td></tr>
-<tr><td><code>form_of_payment</code></td><td>VARCHAR</td></tr>
-<tr><td><code>n_records</code></td><td>BIGINT</td></tr>
-<tr><td><code>n_payments</code></td><td>DOUBLE</td></tr>
-<tr><td><code>total_usd</code></td><td>DOUBLE</td></tr>
-<tr><td><code>n_recipients</code></td><td>BIGINT</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>MANUFACTURER_ID</code></td><td>VARCHAR</td></tr>
+<tr><td><code>MANUFACTURER_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PROGRAM_YEAR</code></td><td>INTEGER</td></tr>
+<tr><td><code>COVERED_RECIPIENT_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>NATURE_OF_PAYMENT</code></td><td>VARCHAR</td></tr>
+<tr><td><code>FORM_OF_PAYMENT</code></td><td>VARCHAR</td></tr>
+<tr><td><code>N_RECORDS</code></td><td>BIGINT</td></tr>
+<tr><td><code>N_PAYMENTS</code></td><td>DOUBLE</td></tr>
+<tr><td><code>TOTAL_USD</code></td><td>DOUBLE</td></tr>
+<tr><td><code>N_RECIPIENTS</code></td><td>BIGINT</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="op_product_summary"><code>op_product_summary</code> <span class="muted">(66,151 rows)</span></h2>
+<h2 id="OP_PRODUCT_SUMMARY"><code>OP_PRODUCT_SUMMARY</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">66,151 rows</span></h2>
 <p>Open Payments general payments summarized by manufacturer and product (with NDC-11 where the reported NDC resolves), split and full-amount views.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>manufacturer_id</code></td><td>VARCHAR</td></tr>
-<tr><td><code>manufacturer_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>program_year</code></td><td>INTEGER</td></tr>
-<tr><td><code>covered_recipient_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>nature_of_payment</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_category</code></td><td>VARCHAR</td></tr>
-<tr><td><code>product_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>ndc_raw_digits</code></td><td>VARCHAR</td></tr>
-<tr><td><code>ndc_raw</code></td><td>VARCHAR</td></tr>
-<tr><td><code>n_records</code></td><td>BIGINT</td></tr>
-<tr><td><code>total_usd_full</code></td><td>DOUBLE</td></tr>
-<tr><td><code>total_usd_split</code></td><td>DOUBLE</td></tr>
-<tr><td><code>ndc11</code></td><td>VARCHAR</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>MANUFACTURER_ID</code></td><td>VARCHAR</td></tr>
+<tr><td><code>MANUFACTURER_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PROGRAM_YEAR</code></td><td>INTEGER</td></tr>
+<tr><td><code>COVERED_RECIPIENT_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>NATURE_OF_PAYMENT</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_CATEGORY</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PRODUCT_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>NDC_RAW_DIGITS</code></td><td>VARCHAR</td></tr>
+<tr><td><code>NDC_RAW</code></td><td>VARCHAR</td></tr>
+<tr><td><code>N_RECORDS</code></td><td>BIGINT</td></tr>
+<tr><td><code>TOTAL_USD_FULL</code></td><td>DOUBLE</td></tr>
+<tr><td><code>TOTAL_USD_SPLIT</code></td><td>DOUBLE</td></tr>
+<tr><td><code>NDC11</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="op_recipient_manufacturer_year"><code>op_recipient_manufacturer_year</code> <span class="muted">(9,461,472 rows)</span></h2>
+<h2 id="OP_RECIPIENT_MANUFACTURER_YEAR"><code>OP_RECIPIENT_MANUFACTURER_YEAR</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">9,461,472 rows</span></h2>
 <p>Open Payments general payments summarized by covered recipient (NPI or profile id), manufacturer and program year.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>covered_recipient_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>profile_id</code></td><td>VARCHAR</td></tr>
-<tr><td><code>npi</code></td><td>VARCHAR</td></tr>
-<tr><td><code>teaching_hospital_id</code></td><td>VARCHAR</td></tr>
-<tr><td><code>teaching_hospital_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>first_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>last_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>specialty_1</code></td><td>VARCHAR</td></tr>
-<tr><td><code>recipient_state</code></td><td>VARCHAR</td></tr>
-<tr><td><code>manufacturer_id</code></td><td>VARCHAR</td></tr>
-<tr><td><code>manufacturer_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>program_year</code></td><td>INTEGER</td></tr>
-<tr><td><code>n_records</code></td><td>BIGINT</td></tr>
-<tr><td><code>total_usd</code></td><td>DOUBLE</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>COVERED_RECIPIENT_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PROFILE_ID</code></td><td>VARCHAR</td></tr>
+<tr><td><code>NPI</code></td><td>VARCHAR</td></tr>
+<tr><td><code>TEACHING_HOSPITAL_ID</code></td><td>VARCHAR</td></tr>
+<tr><td><code>TEACHING_HOSPITAL_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>FIRST_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>LAST_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SPECIALTY_1</code></td><td>VARCHAR</td></tr>
+<tr><td><code>RECIPIENT_STATE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>MANUFACTURER_ID</code></td><td>VARCHAR</td></tr>
+<tr><td><code>MANUFACTURER_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>PROGRAM_YEAR</code></td><td>INTEGER</td></tr>
+<tr><td><code>N_RECORDS</code></td><td>BIGINT</td></tr>
+<tr><td><code>TOTAL_USD</code></td><td>DOUBLE</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="op_entity_profile"><code>op_entity_profile</code> <span class="muted">(4,482 rows)</span></h2>
+<h2 id="OP_ENTITY_PROFILE"><code>OP_ENTITY_PROFILE</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">4,482 rows</span></h2>
 <p>Open Payments company and teaching-hospital profiles (physician profiles excluded).</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>entity_id</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_provider_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_npi</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_alternate_id</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_alternate_name1</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_alternate_name2</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_alternate_name3</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_alternate_name4</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_alternate_name5</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_address_line_1</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_address_line_2</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_city</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_state</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_zipcode</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_country_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_province_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_specialty</code></td><td>VARCHAR</td></tr>
-<tr><td><code>location</code></td><td>VARCHAR</td></tr>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>ENTITY_ID</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_PROVIDER_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_NPI</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_ALTERNATE_ID</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_ALTERNATE_NAME1</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_ALTERNATE_NAME2</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_ALTERNATE_NAME3</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_ALTERNATE_NAME4</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_ALTERNATE_NAME5</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_ADDRESS_LINE_1</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_ADDRESS_LINE_2</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_CITY</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_STATE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_ZIPCODE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_COUNTRY_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_PROVINCE_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_SPECIALTY</code></td><td>VARCHAR</td></tr>
+<tr><td><code>LOCATION</code></td><td>VARCHAR</td></tr>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
-<h2 id="change_log"><code>change_log</code> <span class="muted">(0 rows)</span></h2>
+<h2 id="CHANGE_LOG"><code>CHANGE_LOG</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">0 rows</span></h2>
 <p>Row-level adds, removals and field changes between consecutive refreshes for NDC, Orange Book and 340B tables (old and new values as JSON).</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>snapshot_date</code></td><td>DATE</td></tr>
-<tr><td><code>prev_snapshot_date</code></td><td>DATE</td></tr>
-<tr><td><code>table_name</code></td><td>VARCHAR</td></tr>
-<tr><td><code>entity_key</code></td><td>VARCHAR</td></tr>
-<tr><td><code>change_type</code></td><td>VARCHAR</td></tr>
-<tr><td><code>changed_fields</code></td><td>VARCHAR[]</td></tr>
-<tr><td><code>old_values</code></td><td>JSON</td></tr>
-<tr><td><code>new_values</code></td><td>JSON</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>SNAPSHOT_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>PREV_SNAPSHOT_DATE</code></td><td>DATE</td></tr>
+<tr><td><code>TABLE_NAME</code></td><td>VARCHAR</td></tr>
+<tr><td><code>ENTITY_KEY</code></td><td>VARCHAR</td></tr>
+<tr><td><code>CHANGE_TYPE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>CHANGED_FIELDS</code></td><td>VARCHAR[]</td></tr>
+<tr><td><code>OLD_VALUES</code></td><td>JSON</td></tr>
+<tr><td><code>NEW_VALUES</code></td><td>JSON</td></tr>
 </tbody></table>
-<h2 id="meta_source_run"><code>meta_source_run</code> <span class="muted">(13 rows)</span></h2>
+<h2 id="META_SOURCE_RUN"><code>META_SOURCE_RUN</code> <span class="muted" style="font-size:.6em;font-family:var(--body);font-weight:400">13 rows</span></h2>
 <p>Source files behind this refresh: URL, size, SHA-256 and server last-modified.</p>
-<table><thead><tr><th>column</th><th>type</th></tr></thead><tbody>
-<tr><td><code>source</code></td><td>VARCHAR</td></tr>
-<tr><td><code>run_date</code></td><td>VARCHAR</td></tr>
-<tr><td><code>file</code></td><td>VARCHAR</td></tr>
-<tr><td><code>bytes</code></td><td>BIGINT</td></tr>
-<tr><td><code>sha256</code></td><td>VARCHAR</td></tr>
-<tr><td><code>url</code></td><td>VARCHAR</td></tr>
-<tr><td><code>last_modified</code></td><td>VARCHAR</td></tr>
-<tr><td><code>build_date</code></td><td>DATE</td></tr>
+<table><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+<tr><td><code>SOURCE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>RUN_DATE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>FILE</code></td><td>VARCHAR</td></tr>
+<tr><td><code>BYTES</code></td><td>BIGINT</td></tr>
+<tr><td><code>SHA256</code></td><td>VARCHAR</td></tr>
+<tr><td><code>URL</code></td><td>VARCHAR</td></tr>
+<tr><td><code>LAST_MODIFIED</code></td><td>VARCHAR</td></tr>
+<tr><td><code>BUILD_DATE</code></td><td>DATE</td></tr>
 </tbody></table>
 </main>
-<footer><div class="wrap">© 2026 Channel Keys · <a href="/privacy.html">Privacy</a> · <a href="/support.html">Support</a></div></footer>
-</body></html>
+<footer><div class="wrap"><p class="legal">© 2026 Channel Keys, Milford, Massachusetts. Not affiliated with or endorsed by FDA, CMS or HRSA. <a href="/support.html">Support</a>, <a href="/privacy.html">Privacy</a></p></div></footer>
+</body>
+</html>

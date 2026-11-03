@@ -4,38 +4,49 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Support · Channel Keys</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
-<header><div class="wrap"><nav>
-  <a class="brand" href="/">Channel Keys <span>· pharma reference data</span></a>
-  <a href="/docs.html">Docs</a>
-  <a href="/support.html">Support</a>
-  <a href="/privacy.html">Privacy</a>
+<body data-root="">
+<header class="site-header"><div class="wrap"><nav class="nav" aria-label="Main">
+  <a class="brand" href="/" aria-label="Channel Keys home"><svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="6" class="mark"/><rect x="5" y="7" width="10" height="3.2" rx="1.6" fill="#4A5B73"/><rect x="5" y="12.4" width="16" height="3.2" rx="1.6" fill="#5EC2FF"/><rect x="5" y="17.8" width="13" height="3.2" rx="1.6" fill="#4A5B73"/></svg>Channel Keys</a>
+  <a class="link" href="/#inside">What's inside</a>
+  <a class="link" href="/#pricing">Pricing</a>
+  <a class="link keep" href="/docs.html">Docs</a>
+  <a class="link keep" href="/support.html" aria-current="page">Support</a>
+  <a class="btn btn-primary cta" href="https://app.snowflake.com/marketplace/listings?search=Channel%20Keys" rel="noopener">Get it<span class="long"> on Snowflake</span></a>
 </nav></div></header>
-<main class="wrap">
+
+<main class="wrap page">
   <h1>Support</h1>
   <p class="lead">Email <a href="mailto:support@channelkeys.net">support@channelkeys.net</a>. We answer within one business day; data-quality reports usually within hours.</p>
 
   <h2>Refresh schedule</h2>
-  <p>Listings refresh weekly, early Sunday morning US Eastern time. The <code>meta_source_run</code> table in every listing shows the source file, size, checksum and agency timestamp behind the current refresh, and <code>META_REFRESH</code> shows when it was loaded.</p>
+  <p>The listing refreshes every Sunday at 03:40 US Eastern. <code>META_REFRESH</code> shows when the current data was loaded; <code>META_SOURCE_RUN</code> shows the URL, size, SHA-256 and agency timestamp of every source file behind it. The <a href="/#changes">refresh ledger</a> on the home page shows the same information.</p>
 
   <h2>Source cadence</h2>
-  <ul>
-    <li>FDA NDC Directory: updated daily by FDA; we pick up the latest file each week.</li>
-    <li>FDA Orange Book data files: updated monthly by FDA.</li>
-    <li>Medicaid State Drug Utilization Data: updated quarterly by CMS, with restatements.</li>
-    <li>340B OPAIS: HRSA publishes a daily export; we snapshot it weekly and log changes.</li>
-    <li>CMS Open Payments: republished in June and January each year.</li>
-  </ul>
+  <table>
+    <thead><tr><th>Source</th><th>Agency publishes</th><th>We pick up</th></tr></thead>
+    <tbody>
+      <tr><td>FDA NDC Directory</td><td>Daily</td><td>Weekly, latest file</td></tr>
+      <tr><td>FDA Orange Book data files</td><td>Monthly</td><td>Weekly, latest file</td></tr>
+      <tr><td>Medicaid State Drug Utilization Data</td><td>Quarterly, with restatements</td><td>Weekly, all published years in the pack</td></tr>
+      <tr><td>HRSA 340B OPAIS</td><td>Daily export</td><td>Weekly snapshot, differences logged</td></tr>
+      <tr><td>CMS Open Payments</td><td>June and January</td><td>Picked up the week it lands</td></tr>
+    </tbody>
+  </table>
 
   <h2>Reporting a data issue</h2>
-  <p>Send the table name, the key (for example an NDC-11 or 340B ID), what you expected and what you saw. If the source agency's file is wrong we will say so and point to it; if our transformation is wrong we fix it in the next refresh and note it in the listing's release notes.</p>
+  <p>Send the table name, the key (an NDC-11, application number or 340B ID), what you expected and what you saw. If the agency file is wrong we say so and point to it; if our transformation is wrong we fix it in the next refresh and note it in the listing's release notes.</p>
 
   <h2>Requests</h2>
   <p>Need another public source joined in, a different grain, or a private listing with custom tables? Write to <a href="mailto:hello@channelkeys.net">hello@channelkeys.net</a>.</p>
+
+  <div class="callout">Getting the listing: open Snowflake Marketplace in your account, search for Channel Keys, and choose Get. The database appears in your account under the name you choose; refer to tables as <code>CORE.&lt;TABLE&gt;</code>.</div>
 </main>
-<footer><div class="wrap">© 2026 Channel Keys · <a href="/privacy.html">Privacy</a> · <a href="/docs.html">Docs</a>
-  <a href="/support.html">Support</a></div></footer>
+
+<footer><div class="wrap">
+  <p class="legal">© 2026 Channel Keys, Milford, Massachusetts. Not affiliated with or endorsed by FDA, CMS or HRSA. <a href="/privacy.html">Privacy</a>, <a href="/docs.html">Data dictionary</a></p>
+</div></footer>
 </body>
 </html>

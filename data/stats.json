@@ -1,0 +1,33 @@
+{
+ "refreshed_on": "2026-11-02",
+ "refreshed_at": "2026-11-02T21:06-05:00",
+ "ndc11": 638180.0,
+ "ndc11_marketed": 256429.0,
+ "products": 345642.0,
+ "labelers": 18241.0,
+ "applications": 27428.0,
+ "applications_future_loe": 1357.0,
+ "patents": 22438.0,
+ "sdud_rows": 17221265.0,
+ "sdud_latest_quarter": 20261.0,
+ "sdud_states": 53.0,
+ "covered_entities": 94951.0,
+ "covered_entities_participating": 65429.0,
+ "contract_pharmacies": 409900.0,
+ "contract_pharmacies_active": 244803.0,
+ "op_years": [
+  2024,
+  2025
+ ],
+ "op_total_usd": 7347895376.0,
+ "op_recipient_rows": 9461472.0,
+ "tables": 21.0,
+ "rows_total": 30884576,
+ "sources": {
+  "medicaid_sdud": "Mon, 13 Jul 2026 15:42:44 GMT",
+  "orange_book": "Tue, 13 Oct 2026 16:09:04 GMT",
+  "open_payments": "Tue, 02 Jun 2026 10:03:42 GMT",
+  "opais_340b": null,
+  "fda_ndc": "Mon, 02 Nov 2026 09:45:31 GMT"
+ }
+}
