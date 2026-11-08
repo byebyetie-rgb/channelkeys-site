@@ -1,6 +1,143 @@
 {
- "snapshot_date": null,
- "prev_snapshot_date": null,
- "by_table": [],
- "highlights": []
+ "snapshot_date": "2026-11-08",
+ "prev_snapshot_date": "2026-11-02",
+ "by_table": [
+  {
+   "table": "ndc_package",
+   "added": 596,
+   "removed": 509,
+   "changed": 800
+  },
+  {
+   "table": "ndc_product",
+   "added": 1701,
+   "removed": 1524,
+   "changed": 397
+  },
+  {
+   "table": "opais_contract_pharmacy",
+   "added": 299,
+   "removed": 0,
+   "changed": 367
+  },
+  {
+   "table": "opais_covered_entity",
+   "added": 63,
+   "removed": 0,
+   "changed": 85
+  }
+ ],
+ "highlights": [
+  {
+   "title": "New NDC packages listed",
+   "items": [
+    {
+     "key": "65517100802",
+     "detail": "118 mL in 1 BOTTLE, PUMP (65517-1008-2) "
+    },
+    {
+     "key": "65662026121",
+     "detail": "5 POUCH in 1 CARTON (65662-261-21)  / 4 TABLET in 1 POUCH"
+    },
+    {
+     "key": "68071330506",
+     "detail": "60 TABLET in 1 BOTTLE (68071-3305-6) "
+    },
+    {
+     "key": "69238156101",
+     "detail": "100 CAPSULE in 1 BOTTLE (69238-1561-1) "
+    },
+    {
+     "key": "69842060280",
+     "detail": "3620 g in 1 POUCH (69842-602-80) "
+    },
+    {
+     "key": "70518478700",
+     "detail": "40 TABLET in 1 BOTTLE, PLASTIC (70518-4787-0) "
+    },
+    {
+     "key": "70518479000",
+     "detail": "90 TABLET in 1 BOTTLE, PLASTIC (70518-4790-0) "
+    },
+    {
+     "key": "70518479100",
+     "detail": "30 CAPSULE, DELAYED RELEASE in 1 BOTTLE, PLASTIC (70518-4791-0) "
+    }
+   ]
+  },
+  {
+   "title": "340B contract pharmacy arrangements added",
+   "items": [
+    {
+     "key": "CAH141321-00|453006",
+     "detail": "MEDICENTER PHARMACY DUQUOIN, IL"
+    },
+    {
+     "key": "CHC55724-11|449466",
+     "detail": "AB SPECIALTY PHARMACY INC., FL"
+    },
+    {
+     "key": "CHC55724-11|449353",
+     "detail": "ACCREDO HEALTH GROUP INC, TN"
+    },
+    {
+     "key": "CHC55724-11|449509",
+     "detail": "ACCREDO HEALTH GROUP, INC., FL"
+    },
+    {
+     "key": "CHC55724-11|449296",
+     "detail": "ADVANCED CARE SCRIPTS, INC, FL"
+    },
+    {
+     "key": "CHC55724-11|449452",
+     "detail": "CAN COMMUNITY HEALTH, INC., FL"
+    },
+    {
+     "key": "CHC55724-11|449317",
+     "detail": "CAREMARK FLORIDA SPECIALTY PHARMACY LLC, FL"
+    },
+    {
+     "key": "CHC55724-11|449488",
+     "detail": "CAREMARK ILLINOIS SPECIALTY PHARMACY, LL, IL"
+    }
+   ]
+  },
+  {
+   "title": "340B covered entities changed",
+   "items": [
+    {
+     "key": "CAH141321-00",
+     "detail": "Franklin Hospital District"
+    },
+    {
+     "key": "CH02151BU",
+     "detail": "Sun River Health, Inc."
+    },
+    {
+     "key": "CH03122L",
+     "detail": "North Penn Comprehensive Health Services"
+    },
+    {
+     "key": "CHC29017-00",
+     "detail": "COMMUNITY HEALTH PROJECT, INC."
+    },
+    {
+     "key": "CHC33644-00",
+     "detail": "MARICOPA COUNTY SPECIAL HEALTH CARE DISTRICT"
+    },
+    {
+     "key": "DSH040016BE",
+     "detail": "UNIVERSITY OF ARKANSAS HOSPITAL"
+    },
+    {
+     "key": "DSH220086AY",
+     "detail": "BETH ISRAEL DEACONESS MEDICAL CENTER"
+    },
+    {
+     "key": "DSH230080BJ",
+     "detail": "MCLAREN CENTRAL MICHIGAN"
+    }
+   ]
+  }
+ ]
 }
