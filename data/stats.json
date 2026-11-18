@@ -1,6 +1,6 @@
 {
  "refreshed_on": "2026-11-17",
- "refreshed_at": "2026-11-17T22:12-05:00",
+ "refreshed_at": "2026-11-17T22:20-05:00",
  "ndc11": 638764.0,
  "ndc11_marketed": 256553.0,
  "products": 346154.0,
@@ -27,7 +27,7 @@
   "orange_book": "Fri, 13 Nov 2026 16:03:15 GMT",
   "open_payments": "Thu, 04 Jun 2026 18:47:34 GMT",
   "medicaid_sdud": "Mon, 13 Jul 2026 15:42:44 GMT",
-  "fda_ndc": "Tue, 17 Nov 2026 09:45:21 GMT",
-  "opais_340b": null
+  "opais_340b": null,
+  "fda_ndc": "Tue, 17 Nov 2026 09:45:21 GMT"
  }
 }
