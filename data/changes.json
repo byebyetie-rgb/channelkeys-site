@@ -1,30 +1,48 @@
 {
- "snapshot_date": "2026-11-08",
- "prev_snapshot_date": "2026-11-02",
+ "snapshot_date": "2026-11-17",
+ "prev_snapshot_date": "2026-11-08",
  "by_table": [
   {
    "table": "ndc_package",
-   "added": 596,
-   "removed": 509,
-   "changed": 800
+   "added": 1161,
+   "removed": 660,
+   "changed": 752
   },
   {
    "table": "ndc_product",
-   "added": 1701,
-   "removed": 1524,
-   "changed": 397
+   "added": 3320,
+   "removed": 2985,
+   "changed": 4
+  },
+  {
+   "table": "ob_exclusivity",
+   "added": 41,
+   "removed": 0,
+   "changed": 0
+  },
+  {
+   "table": "ob_patent",
+   "added": 176,
+   "removed": 15,
+   "changed": 17
+  },
+  {
+   "table": "ob_product",
+   "added": 125,
+   "removed": 0,
+   "changed": 474
   },
   {
    "table": "opais_contract_pharmacy",
-   "added": 299,
+   "added": 143,
    "removed": 0,
-   "changed": 367
+   "changed": 446
   },
   {
    "table": "opais_covered_entity",
-   "added": 63,
+   "added": 92,
    "removed": 0,
-   "changed": 85
+   "changed": 174
   }
  ],
  "highlights": [
@@ -32,36 +50,36 @@
    "title": "New NDC packages listed",
    "items": [
     {
-     "key": "65517100802",
-     "detail": "118 mL in 1 BOTTLE, PUMP (65517-1008-2) "
+     "key": "64380020701",
+     "detail": "50 TABLET in 1 BOTTLE (64380-207-01) "
     },
     {
-     "key": "65662026121",
-     "detail": "5 POUCH in 1 CARTON (65662-261-21)  / 4 TABLET in 1 POUCH"
+     "key": "64380020702",
+     "detail": "250 TABLET in 1 BOTTLE (64380-207-02) "
     },
     {
-     "key": "68071330506",
-     "detail": "60 TABLET in 1 BOTTLE (68071-3305-6) "
+     "key": "64380092601",
+     "detail": "50 TABLET in 1 BOTTLE (64380-926-01) "
     },
     {
-     "key": "69238156101",
-     "detail": "100 CAPSULE in 1 BOTTLE (69238-1561-1) "
+     "key": "66800439207",
+     "detail": "207 g in 1 TUBE (66800-4392-7) "
     },
     {
-     "key": "69842060280",
-     "detail": "3620 g in 1 POUCH (69842-602-80) "
+     "key": "67046088203",
+     "detail": "30 TABLET, FILM COATED in 1 BLISTER PACK (67046-0882-3) "
     },
     {
-     "key": "70518478700",
-     "detail": "40 TABLET in 1 BOTTLE, PLASTIC (70518-4787-0) "
+     "key": "35000080411",
+     "detail": "332 mL in 1 BOTTLE (35000-804-11) "
     },
     {
-     "key": "70518479000",
-     "detail": "90 TABLET in 1 BOTTLE, PLASTIC (70518-4790-0) "
+     "key": "37808059702",
+     "detail": "1 KIT in 1 PACKAGE (37808-597-02)  *  355 mL in 1 BOTTLE (37808-763-40)  *  355 mL in 1 BOTTLE (37808-603-40) "
     },
     {
-     "key": "70518479100",
-     "detail": "30 CAPSULE, DELAYED RELEASE in 1 BOTTLE, PLASTIC (70518-4791-0) "
+     "key": "41163019201",
+     "detail": "1 BOTTLE, PLASTIC in 1 CARTON (41163-192-01)  / 100 TABLET, COATED in 1 BOTTLE, PLASTIC"
     }
    ]
   },
@@ -69,36 +87,36 @@
    "title": "340B contract pharmacy arrangements added",
    "items": [
     {
-     "key": "CAH141321-00|453006",
-     "detail": "MEDICENTER PHARMACY DUQUOIN, IL"
+     "key": "CAH171369-00|453017",
+     "detail": "HODGEMAN COUNTY PHARMACY II, LLC, KS"
     },
     {
-     "key": "CHC55724-11|449466",
-     "detail": "AB SPECIALTY PHARMACY INC., FL"
+     "key": "CH051980|453015",
+     "detail": "GLOMBOWSKI LLC, MI"
     },
     {
-     "key": "CHC55724-11|449353",
-     "detail": "ACCREDO HEALTH GROUP INC, TN"
+     "key": "CH05198AN|453009",
+     "detail": "WALGREENS SPECIALTY PHARMACY, LLC, PA"
     },
     {
-     "key": "CHC55724-11|449509",
-     "detail": "ACCREDO HEALTH GROUP, INC., FL"
+     "key": "CH05198AZ|453010",
+     "detail": "MODERN MEDICAL SERVICE, INC., MI"
     },
     {
-     "key": "CHC55724-11|449296",
-     "detail": "ADVANCED CARE SCRIPTS, INC, FL"
+     "key": "CH05198BC|453011",
+     "detail": "ACCREDO HEALTH GROUP INC, PA"
     },
     {
-     "key": "CHC55724-11|449452",
-     "detail": "CAN COMMUNITY HEALTH, INC., FL"
+     "key": "CH05198BC|453012",
+     "detail": "WALGREEN CO., MI"
     },
     {
-     "key": "CHC55724-11|449317",
-     "detail": "CAREMARK FLORIDA SPECIALTY PHARMACY LLC, FL"
+     "key": "CH05198BD|453013",
+     "detail": "WALGREENS SPECIALTY PHARMACY, LLC, TX"
     },
     {
-     "key": "CHC55724-11|449488",
-     "detail": "CAREMARK ILLINOIS SPECIALTY PHARMACY, LL, IL"
+     "key": "CH05198L|453016",
+     "detail": "GLOMBOWSKI LLC, MI"
     }
    ]
   },
@@ -106,36 +124,73 @@
    "title": "340B covered entities changed",
    "items": [
     {
-     "key": "CAH141321-00",
-     "detail": "Franklin Hospital District"
+     "key": "CAH331318-21",
+     "detail": "Carthage Area Hospital, Inc."
     },
     {
-     "key": "CH02151BU",
-     "detail": "Sun River Health, Inc."
+     "key": "CAH451379-04",
+     "detail": "CORYELL COUNTY MEMORIAL HOSPITAL AUTHORITY"
     },
     {
-     "key": "CH03122L",
-     "detail": "North Penn Comprehensive Health Services"
+     "key": "CH04078U",
+     "detail": "DELTA HEALTH CENTER, INC."
     },
     {
-     "key": "CHC29017-00",
-     "detail": "COMMUNITY HEALTH PROJECT, INC."
+     "key": "CH04078V",
+     "detail": "DELTA HEALTH CENTER, INC."
     },
     {
-     "key": "CHC33644-00",
-     "detail": "MARICOPA COUNTY SPECIAL HEALTH CARE DISTRICT"
+     "key": "CH04078W",
+     "detail": "DELTA HEALTH CENTER, INC."
     },
     {
-     "key": "DSH040016BE",
-     "detail": "UNIVERSITY OF ARKANSAS HOSPITAL"
+     "key": "CH04078X",
+     "detail": "DELTA HEALTH CENTER, INC."
     },
     {
-     "key": "DSH220086AY",
-     "detail": "BETH ISRAEL DEACONESS MEDICAL CENTER"
+     "key": "CH05198BC",
+     "detail": "ALCONA CITIZENS FOR HEALTH INC"
     },
     {
-     "key": "DSH230080BJ",
-     "detail": "MCLAREN CENTRAL MICHIGAN"
+     "key": "CH05198BD",
+     "detail": "ALCONA CITIZENS FOR HEALTH INC"
+    }
+   ]
+  },
+  {
+   "title": "Orange Book patents added",
+   "items": [
+    {
+     "key": "N|215430|001|12740949|U-4516",
+     "detail": "2043-02-15"
+    },
+    {
+     "key": "N|215430|002|12740949|U-4516",
+     "detail": "2043-02-15"
+    },
+    {
+     "key": "N|218436|001|12751949|U-4611",
+     "detail": "2043-12-09"
+    },
+    {
+     "key": "N|218436|001|12751949|U-4612",
+     "detail": "2043-12-09"
+    },
+    {
+     "key": "N|011366|002|12758502|U-4613",
+     "detail": "2043-12-23"
+    },
+    {
+     "key": "N|208716|001|11634426|U-4614",
+     "detail": "2039-07-11"
+    },
+    {
+     "key": "N|208716|002|11634426|U-4614",
+     "detail": "2039-07-11"
+    },
+    {
+     "key": "N|208716|003|11634426|U-4614",
+     "detail": "2039-07-11"
     }
    ]
   }
